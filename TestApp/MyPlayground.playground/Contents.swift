@@ -326,7 +326,7 @@ let userid: UserId = "234234-23423523525-23423-4234234"
 class TestTuple {
     var item: (String, Int)
     
-    func getItem() -> (name: String, val: Int) {
+    func getItem() -> (name: String, val: Int) { //assign names to the variables so you can access them more easily than just the index in the tuple
         return ("test", 10)
     }
     
@@ -850,7 +850,18 @@ let originalString = "hello"
 let paddedString = alignRight(originalString, totalLength: 10, pad: "-")
 
 
+//In-Out Parameters (similar to pass by reference in C++)
+var name: String = "jake"
+var amount: Double = 17.50
 
+func testInOut(inout name: String, inout amount: Double) {
+    name += " is my name"
+    amount += 3.0;
+}
+
+testInOut(&name, amount: &amount)
+
+print(name, amount)
 
 
 
