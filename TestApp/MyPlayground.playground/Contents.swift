@@ -853,16 +853,22 @@ let paddedString = alignRight(originalString, totalLength: 10, pad: "-")
 //In-Out Parameters (similar to pass by reference in C++)
 var name: String = "jake"
 var amount: Double = 17.50
-
 func testInOut(inout name: String, inout amount: Double) {
     name += " is my name"
     amount += 3.0;
 }
-
 testInOut(&name, amount: &amount)
-
 print(name, amount)
 
+
+//Function Types (Page 155)
+func addTwoInts(a: Int, b: Int) -> Int {
+    return a + b
+}
+
+var mathFunction: (Int, Int) -> Int = addTwoInts
+
+print(mathFunction(5, 10))
 
 
 
