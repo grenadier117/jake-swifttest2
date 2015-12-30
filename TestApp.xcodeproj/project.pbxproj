@@ -47,6 +47,7 @@
 		207343A71C2F774900D18700 /* TestAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		207343AB1C2F774900D18700 /* TestAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAppUITests.swift; sourceTree = "<group>"; };
 		207343AD1C2F774900D18700 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		207343F31C33B20100D18700 /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +104,7 @@
 				207343921C2F774900D18700 /* Assets.xcassets */,
 				207343941C2F774900D18700 /* LaunchScreen.storyboard */,
 				207343971C2F774900D18700 /* Info.plist */,
+				207343F31C33B20100D18700 /* MyPlayground.playground */,
 			);
 			path = TestApp;
 			sourceTree = "<group>";
@@ -484,6 +486,7 @@
 				207343B21C2F774900D18700 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		207343B31C2F774900D18700 /* Build configuration list for PBXNativeTarget "TestAppTests" */ = {
 			isa = XCConfigurationList;
@@ -492,6 +495,7 @@
 				207343B51C2F774900D18700 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		207343B61C2F774900D18700 /* Build configuration list for PBXNativeTarget "TestAppUITests" */ = {
 			isa = XCConfigurationList;
@@ -500,6 +504,7 @@
 				207343B81C2F774900D18700 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
