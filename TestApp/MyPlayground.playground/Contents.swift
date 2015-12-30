@@ -812,9 +812,42 @@ if #available(iOS 9, OSX 10.10, *) {
 
 
 
+//------------------------------------------------------------------------------------------------------------------------------------
+//Functions
+func someFunction(parameterWithDefault: Int = 12) {
+    // function body goes here
+    // if no arguments are passed to the function call,
+    // value of parameterWithDefault is 12
+}
+someFunction(6) // parameterWithDefault is 6
+someFunction() // parameterWithDefault is 12
+
+//variety number of parameters of the same type
+func arithmeticMean(numbers: Double...) -> Double {
+    var total: Double = 0
+    for number in numbers {
+        total += number
+    }
+    return total / Double(numbers.count)
+}
+arithmeticMean(1, 2, 3, 4, 5)
+arithmeticMean(3, 8.25, 18.75)
 
 
-
+//Variable parameter
+func alignRight(var string: String, totalLength: Int, pad: Character) -> String {
+    let amountToPad = totalLength - string.characters.count
+    if amountToPad < 1 {
+        return string
+    }
+    let padString = String(pad)
+    for _ in 1...amountToPad {
+        string = padString + string
+    }
+    return string
+}
+let originalString = "hello"
+let paddedString = alignRight(originalString, totalLength: 10, pad: "-")
 
 
 
