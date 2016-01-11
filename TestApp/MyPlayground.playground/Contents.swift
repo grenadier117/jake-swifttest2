@@ -582,11 +582,11 @@ else {
 
 var intersectSet = favoriteGenres.intersect(favoriteGenres2).sort() //those in both set A and B
 
-var exclusiveSet = favoriteGenres.intersect(favoriteGenres2) //those is set A or set B, but not both
+var exclusiveSet = favoriteGenres.exclusiveOr(favoriteGenres2) //those is set A or set B, but not both
 
-var subtractSet = favoriteGenres.intersect(favoriteGenres2) //those in set A that are left over after removing those that are also in set B
+var subtractSet = favoriteGenres.subtract(favoriteGenres2) //those in set A that are left over after removing those that are also in set B
 
-var unionSet = favoriteGenres.intersect(favoriteGenres2) //combines set A and B, regardless of any being in other
+var unionSet = favoriteGenres.union(favoriteGenres2) //combines set A and B, regardless of any being in other
 
 if (favoriteGenres == favoriteGenres2) {
     print("both sets have the same values")
@@ -862,13 +862,258 @@ print(name, amount)
 
 
 //Function Types (Page 155)
-func addTwoInts(a: Int, b: Int) -> Int {
+func addTwoInts(a: Int, _ b: Int) -> Int {
     return a + b
 }
 
-var mathFunction: (Int, Int) -> Int = addTwoInts
+func multiplyTwoInts(a: Int, _ b: Int) -> Int {
+    return a * b
+}
+
+var mathFunction: (Int, Int) -> Int = addTwoInts //This is now the same as "addTwoInts"
 
 print(mathFunction(5, 10))
+
+mathFunction = multiplyTwoInts
+print("Result: \(mathFunction(2, 3))")
+
+let anotherMathFunction = addTwoInts
+print("result: \(anotherMathFunction(1, 4))") //here you don't have to include 'b' because we said it didn't have a name with the '_'
+
+
+
+//------------------------------------------------------------------------------------------------------------------------------------
+//Enums with assocaited values
+
+enum Barcode {
+    case UPCA(Int, Int, Int, Int)
+    case QRCode(String)
+}
+
+var productBarcode = Barcode.UPCA(8, 89509, 51226, 3)
+productBarcode = Barcode.QRCode("ABCDEFGHIJKLMNOP")
+
+//extract all the variables from the switch to use forthwith
+switch (productBarcode) {
+case .UPCA(let numberSystem, let manufacturer, let product, let check):
+    print("UPC-A: \(numberSystem), \(manufacturer), \(product), \(check).")
+case .QRCode(let productCode):
+    print("QRCode: \(productCode).")
+}
+
+//put a let in front of the case for brevity, if you are going to extract all the variables
+switch productBarcode {
+case let .UPCA(numberSystem, manufacturer, product, check):
+    print("UPC-A: \(numberSystem), \(manufacturer), \(product), \(check).")
+case let .QRCode(productCode):
+    print("QRCode: \(productCode).")
+}
+
+enum ASCIIControlCharacter: Character {
+    case Tab = "\t"
+    case LineFeed = "\n"
+    case CarriageReturn = "\r"
+}
+
+enum CompassPoint: String { //Because this is set to a string, and there is no value associated with it, it will be set to the name of the obj
+    case North, South, East, West
+}
+
+let sunsetDirection = CompassPoint.West.rawValue
+
+enum Planet: Int {
+    case Mercury = 1, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune
+}
+
+let possiblePlanet = Planet(rawValue: 7) //Initialize a Planet from a rawValue, and if it exists, will set it to whatever that value is associated with
+                                         //Else it will return nil
+
+let positionToFind = 9
+if let somePlanet = Planet(rawValue: positionToFind) {
+    switch (somePlanet) {
+    case .Earth:
+        print("Mostly harmless")
+    default:
+        print("Not a safe place for humans")
+    }
+}
+else {
+    print("There isn't a planet at position \(positionToFind)")
+}
+
+enum ArithmeticExpression {
+    case Number(Int)
+    indirect case Addition(ArithmeticExpression, ArithmeticExpression)
+    indirect case Multiplication(ArithmeticExpression, ArithmeticExpression)
+}
+
+indirect enum ArithmeticExpression2 {
+    case Number(Int)
+    case Addition(ArithmeticExpression, ArithmeticExpression)
+    case Multiplication(ArithmeticExpression, ArithmeticExpression)
+}
+
+
+func evaluate(expression: ArithmeticExpression) -> Int {
+    switch (expression) {
+    case .Number(let value):
+        return value
+    case .Addition(let left, let right):
+        return evaluate(left) + evaluate(right)
+    case .Multiplication(let left, let right):
+        return evaluate(left) * evaluate(right)
+    }
+}
+
+//evaluate (5 + 4) * 2
+let five = ArithmeticExpression.Number(5)
+let four = ArithmeticExpression.Number(4)
+let sum = ArithmeticExpression.Addition(five, four)
+let product = ArithmeticExpression.Multiplication(sum, ArithmeticExpression.Number(2))
+print(evaluate(product))
+
+
+
+
+//------------------------------------------------------------------------------------------------------------------------------------
+//Classes and Structures
+
+struct Resolution { //structures and enums are always copied when passed around, unlike classes, which keeps a reference count (value types, like Int, String etc..)
+    var width = 0
+    var height = 0
+}
+
+class VideoMode {
+    var resolution = Resolution()
+    var interlaced = false
+    var frameRate = 0.0
+    var name: String?
+}
+
+let hd = Resolution(width: 1920, height: 1080)
+var cinema = hd
+cinema.width = 2048
+print("Cinema is now \(cinema.width) pixels wide")
+print("hd is still \(hd.width) pixels wide")
+
+
+let tenEighty = VideoMode()
+tenEighty.resolution = hd
+tenEighty.interlaced = true
+tenEighty.name = "1080i"
+tenEighty.frameRate = 25.0
+
+let alsoTenEight = tenEighty
+alsoTenEight.frameRate = 30.0
+print("The frame rate property of tenEighty is now \(tenEighty.frameRate)")
+
+if (tenEighty === alsoTenEight) { //the operator === is "Identical To", meaning the same exact object, just a different reference
+    print("tenEighty and alsoTenEight refer to the same videoMode instance")
+}
+
+if (tenEighty !== alsoTenEight) { //the operator !== is "Not Identical To", meaning they are not the same object, but two differnet objects/instances
+    print("tenEight and alsoTenEighty do NOT refer to the same videoMode instance")
+}
+
+
+struct FixedLengthRange {
+    var firstValue: Int //firstValue is a variable property and can be changed after initialization
+    let length: Int //length is a constant property and can't be changed after initialization
+}
+
+var rangeOfThreeItems = FixedLengthRange(firstValue: 0, length: 3)
+rangeOfThreeItems.firstValue = 6
+
+let rangeOfFourItems = FixedLengthRange(firstValue: 0, length: 4) //because the rangeOfFourItems is a constant property, you cannot modify the instance's properties, even through it is declared as a var. This is because structs are a value type, and when an instance of a value type is marked as a constant, so are all its properties. This is not the case for classes though because classes are Reference types, if you assigned an instance of a reference type to a constant you can still change that instance's variable properties
+
+
+//------------------------------------------------------------------------------------------------------------------------------------
+//Lazy Stored Properties (a property who's value is not calculated until the first time it is used, Must be a var type!)
+
+class DataImporter {
+    /*
+     * DataImporter is a class to import data from an external file.
+     * The class is assumed to take a non-trivial amount of time to initialize.
+     */
+    var fileName = "data.txt"
+}
+
+class DataManager {
+    lazy var importer = DataImporter()
+    var data = [String]()
+}
+
+let manager = DataManager()
+manager.data.append("Some data")
+manager.data.append("Some more data")
+//The DataImporter instance for the import property has not yet been created at this point
+
+print(manager.importer.fileName) //The DataImporter instance for the import property has now been created
+
+
+//------------------------------------------------------------------------------------------------------------------------------------
+//Classes
+
+//Using a class with getters and setters
+struct Point {
+    var x = 0.0, y = 0.0
+}
+struct Size {
+    var width = 0.0, height = 0.0
+}
+struct Rect {
+    var origin = Point()
+    var size = Size()
+    var center: Point {
+        get {
+            let centerX = origin.x + (size.width / 2)
+            let centerY = origin.y + (size.height / 2)
+            return Point(x: centerX, y: centerY)
+        }
+        set(newCenter) { //If no name is set for the setter, then the name "newValue" is used instead
+            origin.x = newCenter.x - (size.width / 2)
+            origin.y = newCenter.y - (size.height / 2)
+        }
+    }
+}
+var square2 = Rect(origin: Point(x: 0.0, y: 0.0),
+    size: Size(width: 10.0, height: 10.0))
+let initialSquareCenter = square2.center
+square2.center = Point(x: 15.0, y: 15.0)
+print("square.origin is now at (\(square2.origin.x), \(square2.origin.y))")
+
+//Read-Only variable
+struct Cuboid {
+    var width = 0.0, height = 0.0, depth = 0.0
+    var volume: Double {
+        return width * height * depth
+    }
+}
+let fourByFiveByTwo = Cuboid(width: 4.0, height: 5.0, depth: 2.0)
+print("the volume of fourByFiveByTwo is \(fourByFiveByTwo.volume)")
+
+
+class StepCounter {
+    var totalSteps: Int = 0 {
+        willSet(newTotalStep) {
+            print("About to set total steps to \(newTotalStep)")
+        }
+        
+        didSet {
+            if totalSteps > oldValue {
+                print("Added \(totalSteps - oldValue) steps")
+            }
+        }
+    }
+}
+
+let stepCounter = StepCounter()
+stepCounter.totalSteps = 200
+stepCounter.totalSteps = 360
+stepCounter.totalSteps = 896
+
+
+
 
 
 
