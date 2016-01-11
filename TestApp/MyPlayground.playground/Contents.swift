@@ -1112,6 +1112,81 @@ stepCounter.totalSteps = 200
 stepCounter.totalSteps = 360
 stepCounter.totalSteps = 896
 
+//Type properties, This allows one single value across all instances of this class/struct/enum. So if you change the type property (static) in one instance, then it will also change in the other instances as well, since it is global accross all instances. You change it by calling the type, then using dot syntax to access the property to change it
+struct SomeStructure {
+    static var storedTypeProperty = "Some value"
+    static var computedTypeProperty: Int {
+        return 1
+    }
+}
+
+enum SomeEnumberation {
+    static var storedTypeProperty = "Some value"
+    static var computedTypePropery: Int {
+        return 6
+    }
+}
+
+class SomeClass {
+    static var stroedTypeProperty = "Some value"
+    static var computedTypeProperty: Int {
+        return 27
+    }
+    
+    class var overridableComputedTypeProperty: Int {
+        return 107
+    }
+}
+
+print(SomeStructure.storedTypeProperty)
+SomeStructure.storedTypeProperty = "Another value" //Type properties are queried and set on the type, not on an instance of that type. This is how you change it
+print(SomeStructure.storedTypeProperty)
+print(SomeEnumberation.computedTypePropery)
+print(SomeClass.computedTypeProperty)
+
+
+struct AudioChannel {
+    static let thresholdLevel = 10
+    static var maxInputLevelForAllChannels = 0
+    var currentLevel: Int = 0 {
+        didSet {
+            if currentLevel > AudioChannel.thresholdLevel {
+                // cap the new audio level to the threshold level
+                currentLevel = AudioChannel.thresholdLevel
+            }
+            if currentLevel > AudioChannel.maxInputLevelForAllChannels {
+                // store this as the new overall maximum input level
+                AudioChannel.maxInputLevelForAllChannels = currentLevel
+            }
+        }
+    }
+}
+
+var leftChannel = AudioChannel()
+var rightChannel = AudioChannel()
+
+leftChannel.currentLevel = 7
+print(leftChannel.currentLevel)
+print(AudioChannel.maxInputLevelForAllChannels)
+
+rightChannel.currentLevel = 11
+print(rightChannel.currentLevel)
+print(AudioChannel.maxInputLevelForAllChannels)
+
+
+
+class Counter2 {
+    var count = 0
+    func increment() {
+        ++count
+    }
+    func incrementBy(amount: Int) {
+        count += amount
+    }
+    func reset() {
+        count = 0
+    }
+}
 
 
 
