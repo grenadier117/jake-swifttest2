@@ -1188,15 +1188,92 @@ class Counter2 {
     }
 }
 
+class Counter3 {
+    var count: Int = 0
+    func incrementBy(amount: Int, numberOfTimes: Int) {
+        count += amount * numberOfTimes
+    }
+}
 
 
+//------------------------------------------------------------------------------------------------------------------------------------
+//Motifying enums and structs
+
+//Mutating properties in a struct or enum
+struct Point2 {
+    var x = 0.0, y = 0.0
+    mutating func moveByX(deltaX: Double, y deltaY: Double) {
+        x += deltaX
+        y += deltaY
+    }
+}
+
+var somePoint2 = Point2(x: 1.0, y: 1.0)
+somePoint2.moveByX(2.0, y: 3.0)
+print("This point is now at (\(somePoint2.x), \(somePoint2.y))")
+
+//Can assign an entire new instance of point3 to self inside mutating function
+struct Point3 {
+    var x = 0.0, y = 0.0
+    mutating func moveByX(deltaX: Double, y deltaY: Double) {
+        self = Point3(x: x + deltaX, y: y + deltaY)
+    }
+}
+
+enum TriStateSwitch {
+    case Off, Low, High
+    mutating func next() {
+        switch self {
+        case Off:
+            self = Low
+        case Low:
+            self = High
+        case High:
+            self = Off
+        }
+    }
+}
+var ovenLight = TriStateSwitch.Low
+ovenLight.next()
+// ovenLight is now equal to .High
+ovenLight.next()
+// ovenLight is now equal to .Off
 
 
+//------------------------------------------------------------------------------------------------------------------------------------
+//Subscripting
 
+struct TimesTable { //subscripting with a single input value
+    let multiplier: Int
+    subscript(index: Int) -> Int {
+        return multiplier * index
+    }
+}
+let threeTimesTable = TimesTable(multiplier: 3)
+print("six times three is \(threeTimesTable[6])")
 
-
-
-
+struct Matrix { //subscripting with multiple input values
+    let rows: Int, columns: Int
+    var grid: [Double]
+    init(rows: Int, columns: Int) {
+        self.rows = rows
+        self.columns = columns
+        grid = Array(count: rows * columns, repeatedValue: 0.0)
+    }
+    func indexIsValidForRow(row: Int, column: Int) -> Bool {
+        return row >= 0 && row < rows && column >= 0 && column < columns
+    }
+    subscript(row: Int, column: Int) -> Double {
+        get {
+            assert(indexIsValidForRow(row, column: column), "Index out of range")
+            return grid[(row * columns) + column]
+        }
+        set {
+            assert(indexIsValidForRow(row, column: column), "Index out of range")
+            grid[(row * columns) + column] = newValue
+        }
+    }
+}
 
 
 
