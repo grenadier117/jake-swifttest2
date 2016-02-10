@@ -795,7 +795,6 @@ gameLoop: while square != finalSquare {
 func greet(person: [String: String]) {
     guard let name = person["name"] else {
         return
-        
     }
     print("Hello \(name)")
 }

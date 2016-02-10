@@ -49,6 +49,7 @@
 		207343AD1C2F774900D18700 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		207343F31C33B20100D18700 /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; };
 		CEC8A7021C56D0DB00A76F43 /* MyPlayground2.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground2.playground; sourceTree = "<group>"; };
+		CEC8A7031C69155A00A76F43 /* MyPlayground3.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground3.playground; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +108,7 @@
 				207343971C2F774900D18700 /* Info.plist */,
 				207343F31C33B20100D18700 /* MyPlayground.playground */,
 				CEC8A7021C56D0DB00A76F43 /* MyPlayground2.playground */,
+				CEC8A7031C69155A00A76F43 /* MyPlayground3.playground */,
 			);
 			path = TestApp;
 			sourceTree = "<group>";
